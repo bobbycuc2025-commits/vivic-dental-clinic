@@ -4,6 +4,42 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
+// Option 1: Modern & Clean (Recommended for dental clinic)
+import { Inter, Montserrat } from 'next/font/google';
+
+// Option 2: Professional & Trustworthy
+// import { Poppins, Lora } from 'next/font/google';
+
+// Option 1 Configuration (Modern & Clean)
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+  weight: ['300', '400', '500', '600', '700']
+});
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-montserrat',
+  weight: ['300', '400', '500', '600', '700', '800']
+});
+
+// Option 2 Configuration (Professional & Trustworthy)
+// const poppins = Poppins({
+//   subsets: ['latin'],
+//   display: 'swap',
+//   variable: '--font-poppins',
+//   weight: ['300', '400', '500', '600', '700']
+// });
+// 
+// const lora = Lora({
+//   subsets: ['latin'],
+//   display: 'swap',
+//   variable: '--font-lora',
+//   weight: ['400', '500', '600', '700']
+// });
+
 export const metadata: Metadata = {
   title: "Dentist in Asaba | Orthodontist & Smile Makeover – Vivic Dental Clinic",
   description: "Vivic Dental Clinic offers expert orthodontics, braces, teeth whitening and smile makeovers in Asaba, Delta State. Modern dental care with warm hearts.",
@@ -52,9 +88,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
+      {/* For Option 2, use: className={`${poppins.variable} ${lora.variable}`} */}
       <head>
         <link rel="canonical" href="https://vivicdentalclinic.com" />
+        
+        {/* Add preconnect for Google Fonts for better performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -92,7 +134,7 @@ export default function RootLayout({
                 }
               ],
               "priceRange": "₦₦",
-              "image": "https://vivicdentalclinic.com/logo.png",
+              "image": "https://vivicdentalclinic.com/icon-512.png",
               "sameAs": [
                 "https://www.facebook.com/vivicdentalclinic",
                 "https://www.instagram.com/vivicdentalclinic"
@@ -101,7 +143,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>
+      <body className="font-sans">
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />

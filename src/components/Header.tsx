@@ -44,9 +44,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-linear-to-br from-primary-orange to-primary-green rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xl">V</span>
-            </div>
+           <img src="/icon-512.png" alt="Vivic Dental Logo" className="w-10 h-10 object-contain" />
             <div className="flex flex-col">
               <span className="text-xl font-bold text-gray-900">Vivic Dental</span>
               <span className="text-xs text-gray-600">Your Smile, Our Priority</span>

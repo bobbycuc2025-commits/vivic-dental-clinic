@@ -16,6 +16,10 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
+      animation: {
+        'fade-in': 'fadeIn 0.6s ease-out',
+        'pulse-gentle': 'pulse 2s ease-in-out infinite',
+      },
     },
   },
   plugins: [],

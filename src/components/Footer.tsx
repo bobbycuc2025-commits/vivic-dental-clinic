@@ -11,9 +11,7 @@ export default function Footer() {
           {/* About Section */}
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-linear-to-br from-primary-orange to-primary-green rounded-full flex items-center justify-center">
-                <span className="text-white font-bold">V</span>
-              </div>
+              <img src="/icon-512.png" alt="Vivic Dental Logo" className="w-8 h-8 object-contain" />
               <span className="text-xl font-bold text-white">Vivic Dental</span>
             </div>
             <p className="text-sm mb-4">

@@ -6,8 +6,11 @@ import GoogleReviews from '@/components/GoogleReviews';
 export default function Home() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative bg-linear-to-br from-primary-orange/10 via-white to-primary-green/10 py-20 lg:py-32">
+      {/* Hero Section - Fixed gradient syntax for Tailwind v4 */}
+      <section className="relative py-20 lg:py-32" 
+        style={{
+          background: 'linear-gradient(135deg, rgb(255 98 0 / 0.1) 0%, rgb(255 255 255) 50%, rgb(0 100 0 / 0.1) 100%)'
+        }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in">
@@ -21,21 +24,24 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/booking"
-                  className="inline-flex items-center justify-center bg-primary-orange text-white px-8 py-4 rounded-full hover:bg-primary-green transition font-semibold text-lg group"
+                  className="inline-flex items-center justify-center bg-primary-orange text-white px-8 py-4 rounded-full hover:bg-primary-green transition-all font-semibold text-lg group"
                 >
                   Book Appointment
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition" />
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-all" />
                 </Link>
                 <Link
                   href="/services"
-                  className="inline-flex items-center justify-center border-2 border-primary-orange text-primary-orange px-8 py-4 rounded-full hover:bg-primary-orange hover:text-white transition font-semibold text-lg"
+                  className="inline-flex items-center justify-center border-2 border-primary-orange text-primary-orange px-8 py-4 rounded-full hover:bg-primary-orange hover:text-white transition-all font-semibold text-lg"
                 >
                   Our Services
                 </Link>
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square bg-linear-to-br from-primary-orange to-primary-green rounded-3xl opacity-20 absolute inset-0 blur-3xl"></div>
+              <div className="aspect-square rounded-3xl opacity-20 absolute inset-0 blur-3xl" 
+                style={{
+                  background: 'linear-gradient(135deg, var(--color-primary-orange) 0%, var(--color-primary-green) 100%)'
+                }}></div>
               <div className="relative bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
                 <img
                   src="/hero-smiling-patient.jpg"
@@ -96,7 +102,10 @@ export default function Home() {
                 key={index}
                 className="bg-gray-50 rounded-2xl p-8 card-hover border border-gray-100"
               >
-                <div className="w-14 h-14 bg-linear-to-br from-primary-orange to-primary-green rounded-2xl flex items-center justify-center mb-4">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+                  style={{
+                    background: 'linear-gradient(135deg, var(--color-primary-orange) 0%, var(--color-primary-green) 100%)'
+                  }}>
                   <item.icon className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{item.title}</h3>
@@ -122,10 +131,10 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link
               href="/services"
-              className="inline-flex items-center justify-center bg-primary-orange text-white px-8 py-4 rounded-full hover:bg-primary-green transition font-semibold text-lg group"
+              className="inline-flex items-center justify-center bg-primary-orange text-white px-8 py-4 rounded-full hover:bg-primary-green transition-all font-semibold text-lg group"
             >
               View All Services
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition" />
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-all" />
             </Link>
           </div>
         </div>
@@ -146,8 +155,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 lg:py-24 bg-linear-to-br from-primary-orange to-primary-green text-white">
+      {/* CTA Section - Fixed red background */}
+      <section className="py-16 lg:py-24 text-white"
+        style={{
+          background: 'linear-gradient(135deg, var(--color-primary-orange) 0%, var(--color-primary-green) 100%)'
+        }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             Ready to Transform Your Smile?
@@ -158,13 +170,13 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/booking"
-              className="inline-flex items-center justify-center bg-white text-primary-orange px-8 py-4 rounded-full hover:bg-gray-100 transition font-semibold text-lg"
+              className="inline-flex items-center justify-center bg-white text-primary-orange px-8 py-4 rounded-full hover:bg-gray-100 transition-all font-semibold text-lg"
             >
               Book Appointment Now
             </Link>
             <a
               href="tel:+2348100670347"
-              className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-4 rounded-full hover:bg-white hover:text-primary-orange transition font-semibold text-lg"
+              className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-4 rounded-full hover:bg-white hover:text-primary-orange transition-all font-semibold text-lg"
             >
               Call: 08100670347
             </a>
