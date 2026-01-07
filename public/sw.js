@@ -77,7 +77,7 @@ self.addEventListener('fetch', (event) => {
           .catch(() => {
             // If offline and not cached, show offline page
             if (event.request.headers.get('accept').includes('text/html')) {
-              return caches.match('/offline.html');
+              return caches.match('/offline');
             }
             
             // For images, return a placeholder

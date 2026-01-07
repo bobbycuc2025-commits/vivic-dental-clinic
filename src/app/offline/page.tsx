@@ -1,6 +1,15 @@
+'use client'; // Add this at the top
+
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function OfflinePage() {
+  const router = useRouter();
+
+  const handleRetry = () => {
+    router.refresh(); // Refresh the page
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-blue-50 to-white p-4">
       <div className="text-center max-w-md">
@@ -34,7 +43,7 @@ export default function OfflinePage() {
         
         <div className="mt-8 space-y-3">
           <button
-            onClick={() => window.location.reload()}
+            onClick={handleRetry}
             className="w-full py-3 bg-linear-to-r from-orange-500 to-orange-600 text-white font-medium rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-200"
           >
             Try Again
@@ -42,7 +51,7 @@ export default function OfflinePage() {
           
           <Link 
             href="/"
-            className="block w-full py-3 bg-white text-orange-600 font-medium rounded-lg border-2 border-orange-200 hover:border-orange-300 transition-all duration-200"
+            className="block w-full py-3 bg-white text-orange-600 font-medium rounded-lg border-2 border-orange-200 hover:border-orange-300 transition-all duration-200 text-center"
           >
             Go to Homepage
           </Link>
