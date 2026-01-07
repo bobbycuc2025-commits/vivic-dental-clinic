@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -6,9 +6,6 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 
 // Option 1: Modern & Clean (Recommended for dental clinic)
 import { Inter, Montserrat } from 'next/font/google';
-
-// Option 2: Professional & Trustworthy
-// import { Poppins, Lora } from 'next/font/google';
 
 // Option 1 Configuration (Modern & Clean)
 const inter = Inter({
@@ -25,25 +22,27 @@ const montserrat = Montserrat({
   weight: ['300', '400', '500', '600', '700', '800']
 });
 
-// Option 2 Configuration (Professional & Trustworthy)
-// const poppins = Poppins({
-//   subsets: ['latin'],
-//   display: 'swap',
-//   variable: '--font-poppins',
-//   weight: ['300', '400', '500', '600', '700']
-// });
-// 
-// const lora = Lora({
-//   subsets: ['latin'],
-//   display: 'swap',
-//   variable: '--font-lora',
-//   weight: ['400', '500', '600', '700']
-// });
-
 export const metadata: Metadata = {
   title: "Dentist in Asaba | Orthodontist & Smile Makeover – Vivic Dental Clinic",
   description: "Vivic Dental Clinic offers expert orthodontics, braces, teeth whitening and smile makeovers in Asaba, Delta State. Modern dental care with warm hearts.",
   keywords: "dentist Asaba, orthodontist Asaba, braces Asaba, teeth whitening Asaba, smile makeover Asaba, aesthetic dentist Delta State",
+  applicationName: "Vivic Dental Clinic",
+  authors: [{ name: "Vivic Dental Clinic" }],
+  creator: "Vivic Dental Clinic",
+  publisher: "Vivic Dental Clinic",
+  
+  // PWA Metadata
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    title: "Vivic Dental",
+    statusBarStyle: "default",
+  },
+  formatDetection: {
+    telephone: true,
+  },
+  
+  // Open Graph
   openGraph: {
     title: "Dentist in Asaba | Orthodontist & Smile Makeover – Vivic Dental Clinic",
     description: "Expert dental care in Asaba: Orthodontics, braces, teeth whitening, veneers & smile makeovers. Book your appointment today!",
@@ -60,12 +59,17 @@ export const metadata: Metadata = {
     locale: "en_NG",
     type: "website",
   },
+  
+  // Twitter
   twitter: {
     card: "summary_large_image",
     title: "Vivic Dental Clinic - Dentist in Asaba",
     description: "Expert orthodontics, braces & smile makeovers in Asaba, Delta State",
     images: ["https://vivicdentalclinic.com/og-image.jpg"],
+    creator: "@vivicdental",
   },
+  
+  // Robots
   robots: {
     index: true,
     follow: true,
@@ -77,9 +81,22 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  
+  // Verification
   verification: {
     google: "your-google-verification-code",
   },
+  
+  // Other Meta
+  category: "medical",
+  classification: "Dental Clinic",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FF6200",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
@@ -89,14 +106,53 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
-      {/* For Option 2, use: className={`${poppins.variable} ${lora.variable}`} */}
       <head>
+        {/* PWA Meta Tags */}
+        <meta name="application-name" content="Vivic Dental" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Vivic Dental" />
+        <meta name="format-detection" content="telephone=yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="msapplication-TileColor" content="#FF6200" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        
+        {/* Favicon and Apple Touch Icons */}
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        
+        {/* PWA Icons */}
+        <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+        
+        {/* Apple Touch Icons */}
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png" />
+        <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-167x167.png" />
+        
+        {/* Microsoft Tiles */}
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
+        
+        {/* Theme Color */}
+        <meta name="theme-color" content="#FF6200" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FF6200" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
+        
+        {/* Canonical URL */}
         <link rel="canonical" href="https://vivicdentalclinic.com" />
         
-        {/* Add preconnect for Google Fonts for better performance */}
+        {/* Preconnect for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
+        {/* Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -142,6 +198,16 @@ export default function RootLayout({
             })
           }}
         />
+        
+        {/* Additional SEO Meta Tags */}
+        <meta name="author" content="Vivic Dental Clinic" />
+        <meta name="geo.region" content="NG-DL" />
+        <meta name="geo.placename" content="Asaba, Delta State" />
+        <meta name="geo.position" content="6.2054;6.7009" />
+        <meta name="ICBM" content="6.2054, 6.7009" />
+        
+        {/* Viewport for iOS */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
       </head>
       <body className="font-sans">
         <Header />

@@ -72,7 +72,11 @@
       "form_factor": "wide"
     }
   ],
-  "categories": ["health", "medical", "lifestyle"],
+  "categories": [
+    "health",
+    "medical",
+    "lifestyle"
+  ],
   "shortcuts": [
     {
       "name": "Book Appointment",

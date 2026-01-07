@@ -8,8 +8,18 @@ const urlsToCache = [
   '/blog',
   '/offline',
   '/manifest.json',
+  '/icon-512.png',
+  '/apple-touch-icon.png',
+  '/favicon-16x16.png',
+  '/favicon-32x32.png',
+  '/favicon.ico',
+  '/icons/icon-72x72.png',
+  '/icons/icon-96x96.png',
+  '/icons/icon-128x128.png',
+  '/icons/icon-144x144.png',
+  '/icons/icon-152x152.png',
   '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/icons/icon-384x384.png',
 ];
 
 // Install service worker
@@ -17,88 +27,106 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Opened cache');
+        console.log('[Service Worker] Opened cache');
         return cache.addAll(urlsToCache);
       })
+      .then(() => {
+        console.log('[Service Worker] All resources cached');
+        return self.skipWaiting();
+      })
+      .catch((error) => {
+        console.error('[Service Worker] Cache failed:', error);
+      })
   );
-  self.skipWaiting();
 });
 
-// Fetch from cache
+// Fetch from cache or network
 self.addEventListener('fetch', (event) => {
+  // Skip non-GET requests
+  if (event.request.method !== 'GET') return;
+
+  // Skip Chrome extensions
+  if (event.request.url.startsWith('chrome-extension://')) return;
+
   event.respondWith(
     caches.match(event.request)
-      .then((response) => {
-        // Cache hit - return response
-        if (response) {
-          return response;
+      .then((cachedResponse) => {
+        // Return cached response if found
+        if (cachedResponse) {
+          return cachedResponse;
         }
 
-        return fetch(event.request).then(
-          (response) => {
-            // Check if valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
+        // Otherwise fetch from network
+        return fetch(event.request)
+          .then((networkResponse) => {
+            // Don't cache if not a valid response
+            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+              return networkResponse;
             }
 
-            // Clone the response
-            const responseToCache = response.clone();
+            // Clone response for cache
+            const responseToCache = networkResponse.clone();
 
             caches.open(CACHE_NAME)
               .then((cache) => {
                 cache.put(event.request, responseToCache);
               });
 
-            return response;
-          }
-        ).catch(() => {
-          // Return offline page if fetch fails
-          return caches.match('/offline');
-        });
+            return networkResponse;
+          })
+          .catch(() => {
+            // If offline and not cached, show offline page
+            if (event.request.headers.get('accept').includes('text/html')) {
+              return caches.match('/offline.html');
+            }
+            
+            // For images, return a placeholder
+            if (event.request.headers.get('accept').includes('image')) {
+              return caches.match('/icons/icon-192x192.png');
+            }
+          });
       })
   );
 });
 
-// Update service worker
+// Clean up old caches
 self.addEventListener('activate', (event) => {
   const cacheWhitelist = [CACHE_NAME];
+  
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
+          if (!cacheWhitelist.includes(cacheName)) {
+            console.log('[Service Worker] Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     })
+    .then(() => {
+      console.log('[Service Worker] Claiming clients');
+      return self.clients.claim();
+    })
   );
-  self.clients.claim();
 });
 
-// Push notifications
+// Handle push notifications
 self.addEventListener('push', (event) => {
+  let data = {};
+  if (event.data) {
+    data = event.data.json();
+  }
+
   const options = {
-    body: event.data ? event.data.text() : 'New notification from Vivic Dental Clinic',
+    body: data.body || 'New update from Vivic Dental Clinic',
     icon: '/icons/icon-192x192.png',
     badge: '/icons/icon-96x96.png',
-    vibrate: [200, 100, 200],
+    tag: 'vivic-dental-notification',
     data: {
-      dateOfArrival: Date.now(),
-      primaryKey: 1
-    },
-    actions: [
-      {
-        action: 'explore',
-        title: 'View Details',
-        icon: '/icons/icon-96x96.png'
-      },
-      {
-        action: 'close',
-        title: 'Close',
-        icon: '/icons/icon-96x96.png'
-      }
-    ]
+      url: data.url || '/',
+      dateOfArrival: Date.now()
+    }
   };
 
   event.waitUntil(
@@ -106,45 +134,25 @@ self.addEventListener('push', (event) => {
   );
 });
 
-// Notification click
+// Handle notification clicks
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
 
+  const urlToOpen = event.notification.data.url || '/';
+
   event.waitUntil(
-    clients.openWindow('/')
+    clients.matchAll({ type: 'window' })
+      .then((windowClients) => {
+        // Check if there's already a window/tab open with the target URL
+        for (let client of windowClients) {
+          if (client.url === urlToOpen && 'focus' in client) {
+            return client.focus();
+          }
+        }
+        // If not, open a new window/tab
+        if (clients.openWindow) {
+          return clients.openWindow(urlToOpen);
+        }
+      })
   );
 });
-
-// Background sync for offline bookings
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-bookings') {
-    event.waitUntil(syncBookings());
-  }
-});
-
-async function syncBookings() {
-  // Sync offline bookings when connection is restored
-  const cache = await caches.open('bookings-cache');
-  const requests = await cache.keys();
-  
-  return Promise.all(
-    requests.map(async (request) => {
-      const response = await cache.match(request);
-      const data = await response.json();
-      
-      // Send booking to server
-      try {
-        await fetch('/api/bookings', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        
-        // Remove from cache after successful sync
-        await cache.delete(request);
-      } catch (error) {
-        console.error('Sync failed:', error);
-      }
-    })
-  );
-}
