@@ -154,7 +154,7 @@ export default function ServicesPage() {
                     <div className={`aspect-square bg-linear-to-br ${service.color} rounded-3xl opacity-20 absolute inset-0 blur-3xl`}></div>
                     <div className="relative bg-white rounded-3xl shadow-2xl p-4 border border-gray-100">
                       <img
-                        src={`/images/services/${service.title.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}.jpg`}
+                        src={`/${service.title.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}.jpg`}
                         alt={service.title}
                         className="rounded-2xl w-full h-auto"
                       />

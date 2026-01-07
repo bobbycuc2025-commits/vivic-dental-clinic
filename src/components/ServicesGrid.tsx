@@ -6,35 +6,35 @@ const services = [
     icon: Smile,
     title: 'Orthodontics & Braces',
     description: 'Straighten your teeth with modern braces solutions including metal, ceramic, and clear aligners.',
-    href: '/services/orthodontics-braces',
+    href: '/orthodontics-braces',
     color: 'from-orange-400 to-orange-600'
   },
   {
     icon: Sparkles,
     title: 'Teeth Whitening',
     description: 'Professional whitening treatments for a brighter, more confident smile in just one visit.',
-    href: '/services/teeth-whitening',
+    href: '/teeth-whitening',
     color: 'from-blue-400 to-blue-600'
   },
   {
     icon: Crown,
     title: 'Veneers & Smile Makeover',
     description: 'Transform your smile completely with custom porcelain veneers and comprehensive makeovers.',
-    href: '/services/veneers-smile-makeover',
+    href: '/veneers-smile-makeover',
     color: 'from-purple-400 to-purple-600'
   },
   {
     icon: Layers,
     title: 'Composite Bonding',
     description: 'Repair chips, gaps, and discoloration with tooth-colored composite resin bonding.',
-    href: '/services/composite-bonding',
+    href: '/composite-bonding',
     color: 'from-green-400 to-green-600'
   },
   {
     icon: Crown,
     title: 'Crowns & Bridges',
     description: 'Restore damaged teeth or replace missing ones with durable, natural-looking crowns and bridges.',
-    href: '/services/crowns-bridges',
+    href: '/crowns-bridges',
     color: 'from-red-400 to-red-600'
   }
 ];
