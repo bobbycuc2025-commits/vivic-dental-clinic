@@ -66,7 +66,7 @@ const blogPosts = [
     date: 'November 20, 2025',
     readTime: '9 min read',
     category: 'Oral Health',
-    image: '/images/blog/oral-hygiene.jpg',
+    image: '/blog-oral-hygiene.jpg',
     featured: false
   }
 ];
